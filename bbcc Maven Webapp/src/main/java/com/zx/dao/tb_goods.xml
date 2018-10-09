@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.dao.goDao">
+     <resultMap type="com.zx.entity.tb_goods" id="result" autoMapping="true">
+           <association property="tb_goods_type" javaType="com.zx.entity.tb_goods_type" column="typeId" autoMapping="true">
+                <id column="typeId" property="typeId"/>
+           </association>
+     </resultMap>
+     
+     <select id="findAll" resultMap="result" >
+      select tg.goodsId,tg.goodsName,tg.goodsUnitPrice,tg.goodsDesc,tg.goodsImageName,tg.goodsDate,tgt.typeName
+FROM tb_goods tg LEFT JOIN tb_goods_type tgt ON tg.typeId=tgt.typeId
+     </select> 
+     
+     <insert id="save" useGeneratedKeys="true" keyProperty="goodsId">
+         insert into tb_goods(goodsName,typeId,goodsDesc,goodsUnitPrice,goodsImageName,sellCount,goodsDate) values(#{goodsName},#{tb_goods_type.typeId},#{goodsDesc},#{goodsUnitPrice},#{goodsImageName},#{sellCount},#{goodsDate})
+	
+     </insert>
+     <select id="fintype" resultType="tb_goods_type">
+         select * from tb_goods_type
+     </select>
+</mapper>
